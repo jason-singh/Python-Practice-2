@@ -7,68 +7,33 @@ import time
 
 #Variables
 fine = 0
-wanted_first = ["James", "Helga", "Zachary"]
-wanted_last = ["Wilson" , "Norman", "Conroy "]
+wanted_first = ["JAMES", "HELGA", "ZACHARY"]
+wanted_last = ["WILSON" , "NORMAN", "CONROY"]
 #Lists
-a = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-b = [10, 11, 12, 13, 14]
-c = [15, 16, 17, 18, 19]
-d = [20, 21, 22, 23, 24]
-e = [25, 26, 27, 28, 29]
-f = [30, 31, 32, 33, 34]
-g = [35, 36, 37, 38, 39]
-h = [40, 41, 42, 43, 44]
-i = [45]
+fines = [(45, 630),(40, 510),(35, 400),(30, 300),(25, 230),(20, 170),(15, 120),(10, 80),(0, 30)]
 finelist = []
+
+def compute_fine(CarSpeed, SpeedLimit, fine):
+    over = CarSpeed - SpeedLimit
+    for SpeedLimit, fine in fines:
+        if over > SpeedLimit:
+            print("{}$ Fine".format(fine))
+    return 0
+
 
 #Functions
 def addtolist(CarSpeed, SpeedLimit, fine):
-    CarOverLimit = CarSpeed - SpeedLimit
-    if CarOverLimit in a:
-        fine = 30
+    if fine > 0:
+        print("${} FINE".format(fine))
         finelist.append(fine)
-        print("$30 FINE")
-    elif CarOverLimit in b:
-        fine = 80
-        finelist.append(fine)
-        print("$80 FINE")
-    elif CarOverLimit in c:
-        fine = 120
-        finelist.append(fine)
-        print("$120 FINE")
-    elif CarOverLimit in d:
-        fine = 170
-        finelist.append(fine)
-        print("$170 FINE")
-    elif CarOverLimit in e:
-        fine = 230
-        finelist.append(fine)
-        print("$230 FINE")
-    elif CarOverLimit in f:
-        fine = 300
-        finelist.append(fine)
-        print("$300 FINE")
-    elif CarOverLimit in g:
-        fine = 400
-        finelist.append(fine)
-        print("$400 FINE")
-    elif CarOverLimit in h:
-        fine = 510
-        finelist.append(fine)
-        print("$510 FINE")
-    elif CarOverLimit >= 45:
-        fine = 630
-        finelist.append(fine)
-        print("$630 FINE")
     else:
         print("NO FINE")
 
 def wanted(First_Name, Last_Name):
     if First_Name in wanted_first and Last_Name in wanted_last:
-        print("========================================")
-        print("WARNING! WARNING! WARNING!")
-        print("{} {} HAS A ARREST WARRANT".format(First_Name, Last_Name))
-        print("========================================")
+        print(f"""========================================
+        \nWARNING! WARNING! WARNING!\n{First_Name} {Last_Name} HAS A ARREST WARRANT\n
+========================================""")
     else:
         print("{} {} IS CLEAR\n".format(First_Name, Last_Name))
 
@@ -90,6 +55,7 @@ while True:
             Last_Name =  input("DRIVER'S LAST NAME: \n").upper()
             SpeedLimit = int(input("ROAD SPEED LIMIT: \n"))
             CarSpeed = int(input("DRIVER'S SPEED: \n"))
+            compute_fine(CarSpeed, SpeedLimit, fine)
             addtolist(CarSpeed, SpeedLimit, fine)
             wanted(First_Name, Last_Name)
     elif task == "2":
