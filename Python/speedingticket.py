@@ -10,9 +10,7 @@ fine = 0
 wanted_first = ["JAMES", "HELGA", "ZACHARY"]
 wanted_last = ["WILSON" , "NORMAN", "CONROY"]
 #Lists
-fines = [(45, 630),(40, 510),(35, 400),(30, 300),(25, 230),(20, 170),(15, 120),(10, 80),(0, 30)]
 finelist = []
-
 fines_for_each_overspeed = {"0":  0,
                             "9": 30,
                             "14": 80,
