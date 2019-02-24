@@ -13,16 +13,27 @@ wanted_last = ["WILSON" , "NORMAN", "CONROY"]
 fines = [(45, 630),(40, 510),(35, 400),(30, 300),(25, 230),(20, 170),(15, 120),(10, 80),(0, 30)]
 finelist = []
 
-def compute_fine(CarSpeed, SpeedLimit, fine):
-    over = CarSpeed - SpeedLimit
-    for SpeedLimit, fine in fines:
-        if over > SpeedLimit:
-            print("{}$ Fine".format(fine))
-    return 0
+fines_for_each_overspeed = {"0":  0,
+                            "9": 30,
+                            "14": 80,
+                            "19": 120,
+                            "20": 170,
+                            "24": 230,
+                            "29": 300,
+                            "34": 400,
+                            "39": 510,
+                            "44": 630}
 
-
-#Functions
 def addtolist(CarSpeed, SpeedLimit, fine):
+    CarOverLimit = CarSpeed - SpeedLimit
+
+    # Go through the dictionnary possible overspeeds until you find one that matches the car's.
+    for overspeed in fines_for_each_overspeed.keys():
+        if CarOverLimit <= int(overspeed):
+            break
+    # Then your fine is just the value associated to the overspeed key.
+    fine = fines_for_each_overspeed[overspeed]
+
     if fine > 0:
         print("${} FINE".format(fine))
         finelist.append(fine)
@@ -55,7 +66,6 @@ while True:
             Last_Name =  input("DRIVER'S LAST NAME: \n").upper()
             SpeedLimit = int(input("ROAD SPEED LIMIT: \n"))
             CarSpeed = int(input("DRIVER'S SPEED: \n"))
-            compute_fine(CarSpeed, SpeedLimit, fine)
             addtolist(CarSpeed, SpeedLimit, fine)
             wanted(First_Name, Last_Name)
     elif task == "2":
