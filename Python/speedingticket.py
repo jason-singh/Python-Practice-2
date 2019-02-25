@@ -11,6 +11,9 @@ wanted_first = ["JAMES", "HELGA", "ZACHARY"]
 wanted_last = ["WILSON" , "NORMAN", "CONROY"]
 #Lists
 finelist = []
+firstlist = []
+lastlist = []
+speedlist = []
 fines_for_each_overspeed = {"0":  0,
                             "9": 30,
                             "14": 80,
@@ -25,7 +28,7 @@ fines_for_each_overspeed = {"0":  0,
 def addtolist(CarSpeed, SpeedLimit, fine):
     CarOverLimit = CarSpeed - SpeedLimit
 
-    # Go through the dictionnary possible overspeeds until you find one that matches the car's.
+    # Go through the l possible overspeeds until you find one that matches the car's.
     for overspeed in fines_for_each_overspeed.keys():
         if CarOverLimit <= int(overspeed):
             break
@@ -34,6 +37,9 @@ def addtolist(CarSpeed, SpeedLimit, fine):
 
     if fine > 0:
         print("${} FINE".format(fine))
+        firstlist.append(First_Name)
+        lastlist.append(Last_Name)
+        speedlist.append(CarOverLimit)
         finelist.append(fine)
     else:
         print("NO FINE")
@@ -70,9 +76,13 @@ while True:
             if sum(finelist) == 0:
                 print("NO RECORDS")
             else:
-                print("TOTAL FINE: {}".format(sum(finelist)))
-                time.sleep(1)
-                print("TOTAL AMOUNT OF FINES: {}".format(len(finelist)))
+                for i in range(0, len(speedlist)):
+                    print("FIRST NAME: {}".format(firstlist[i]))
+                    print("LAST NAME: {}".format(lastlist[i]))
+                    print("OVERSPEEDING BY: {} km".format(speedlist[i]))
+            print("TOTAL FINE: {}".format(sum(finelist)))
+            time.sleep(1)
+            print("TOTAL AMOUNT OF FINES: {}".format(len(finelist)))
     elif task == "3":
         exit()
     else:
