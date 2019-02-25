@@ -24,7 +24,11 @@ fines_for_each_overspeed = {"0":  0,
                             "34": 400,
                             "39": 510,
                             "44": 630}
-
+def summary():
+    for i in range(0, len(speedlist)):
+        print("FIRST NAME: {}".format(firstlist[i]))
+        print("LAST NAME: {}".format(lastlist[i]))
+        print("OVERSPEEDING BY: {} km".format(speedlist[i]))
 def addtolist(CarSpeed, SpeedLimit, fine):
     CarOverLimit = CarSpeed - SpeedLimit
 
@@ -66,24 +70,24 @@ def menu():
 while True:
     task = menu()
     if task == "1":
-            First_Name = input("DRIVER'S FIRST NAME: \n").upper()
-            Last_Name =  input("DRIVER'S LAST NAME: \n").upper()
+        #Asks for driver's name, speed limit of the road and the speed of the driver's car.
+            First_Name = str(input("DRIVER'S FIRST NAME: \n")).upper()
+            Last_Name =  str(input("DRIVER'S LAST NAME: \n")).upper()
             SpeedLimit = int(input("ROAD SPEED LIMIT: \n"))
             CarSpeed = int(input("DRIVER'S SPEED: \n"))
+            
+            #Both of these function run in the while True: loop as they will keep adding to the fine list and checking for wanted drivers.
             addtolist(CarSpeed, SpeedLimit, fine)
             wanted(First_Name, Last_Name)
     elif task == "2":
             if sum(finelist) == 0:
                 print("NO RECORDS")
             else:
-                for i in range(0, len(speedlist)):
-                    print("FIRST NAME: {}".format(firstlist[i]))
-                    print("LAST NAME: {}".format(lastlist[i]))
-                    print("OVERSPEEDING BY: {} km".format(speedlist[i]))
-            print("TOTAL FINE: {}".format(sum(finelist)))
+                summary()
+            print("TOTAL FINE AMOUNT: {}".format(sum(finelist)))
             time.sleep(1)
-            print("TOTAL AMOUNT OF FINES: {}".format(len(finelist)))
+            print("AMOUNT OF FINES: {}".format(len(finelist)))
     elif task == "3":
         exit()
     else:
-        print("INPUT VALUE NOT ALLOWED")
+        print("INPUT VALUE NOT ALLOWED | ENTER NUMBER ONLY")
