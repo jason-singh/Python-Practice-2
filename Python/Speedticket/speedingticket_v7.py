@@ -4,6 +4,7 @@
 
 #Modules
 import time
+import re
 
 #Variables
 fine = 0
@@ -18,12 +19,12 @@ fines_for_each_overspeed = {"0":  0,
                             "9": 30,
                             "14": 80,
                             "19": 120,
-                            "20": 170,
-                            "24": 230,
-                            "29": 300,
-                            "34": 400,
-                            "39": 510,
-                            "44": 630}
+                            "24": 170,
+                            "29": 230,
+                            "34": 300,
+                            "39": 400,
+                            "44": 510,
+                            "45": 630}
 def summary():
     for i in range(0, len(speedlist)):
         print("FIRST NAME: {}".format(firstlist[i]))
@@ -54,7 +55,7 @@ def wanted(First_Name, Last_Name):
         \nWARNING! WARNING! WARNING!\n{First_Name} {Last_Name} HAS A ARREST WARRANT\n
 ========================================""")
     else:
-        print("{} {} IS CLEAR\n".format(First_Name, Last_Name))
+        print("{} {} IS CLEAR\n".format(First_Name.strip(), Last_Name.strip()))
 
 def menu():
     print("______________________\n")
@@ -65,20 +66,32 @@ def menu():
     print("3 | EXIT\n")
     x = input("ENTER 1 | 2 | 3\n")
     return x
-
 #Main routine that runs in loop
 while True:
     task = menu()
     if task == "1":
-        #Asks for driver's name, speed limit of the road and the speed of the driver's car.
-            First_Name = str(input("DRIVER'S FIRST NAME: \n")).upper()
-            Last_Name =  str(input("DRIVER'S LAST NAME: \n")).upper()
-            SpeedLimit = int(input("ROAD SPEED LIMIT: \n"))
-            CarSpeed = int(input("DRIVER'S SPEED: \n"))
-            
-            #Both of these function run in the while True: loop as they will keep adding to the fine list and checking for wanted drivers.
-            addtolist(CarSpeed, SpeedLimit, fine)
-            wanted(First_Name, Last_Name)
+        #Asks for driver's name, speed limit of the road and the speed of the driver's car
+        while True:
+            try:
+                First_Name = str(input("DRIVER'S FIRST NAME: \n")).upper()
+                if not re.match("^[A-Z]{1,20}$", First_Name):
+                    print("ENGLISH ALPHABET ONLY | MAX 20 CHARACTERS")
+                else:
+                    Last_Name =  str(input("DRIVER'S LAST NAME: \n")).upper()
+                    if not re.match("^[A-Z]{1,20}$", Last_Name):
+                        print("ENGLISH ALPHABET ONLY | MAX 20 CHARACTERS")
+                    else:
+                        SpeedLimit = int(input("ROAD SPEED LIMIT: \n"))
+                        CarSpeed = int(input("DRIVER'S SPEED: \n"))
+                        assert 0 < CarSpeed < 300
+                        addtolist(CarSpeed, SpeedLimit, fine)
+                        wanted(First_Name, Last_Name)
+                        break
+            except ValueError:
+                print("PLEASE ENTER APPROPRIATE VALUE")
+            except AssertionError:
+                print("PLEASE ENTER VALUES BETWEEN 0-300 KMS")
+#Both of these function run in the while True: loop as they will keep adding to the fine list and checking for wanted drivers.
     elif task == "2":
             if sum(finelist) == 0:
                 print("NO RECORDS")
