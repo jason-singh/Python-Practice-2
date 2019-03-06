@@ -31,12 +31,11 @@ fines_for_each_overspeed = {"0":  0,
 #Prints out a summary of all the fines of the day with their speed and fine.
 def summary():
     for i in range(0, len(speedlist)):
-        print("$$$$$$$$$$$$$$$$$$$$$$$$$$")
-        print("|FIRST NAME: {}".format(firstlist[i]))
-        print("|LAST NAME: {}".format(lastlist[i]))
-        print("|OVERSPEEDING BY: {} km".format(speedlist[i]))
-        print("|FINE AMOUNT: {}".format(finelist[i]))
-        print("$$$$$$$$$$$$$$$$$$$$$$$$$$")
+        print("FIRST NAME: {}".format(firstlist[i]))
+        print("LAST NAME: {}".format(lastlist[i]))
+        print("OVERSPEEDING BY: {} km".format(speedlist[i]))
+        print("FINE AMOUNT: {}".format(finelist[i]))
+        print("`````````````````````````````")
 
 #Function adds drivers name and how much they were going over the speed limit. Calculates fine for driver through dictionary.
 def addtolist(CarSpeed, SpeedLimit, fine):
@@ -111,9 +110,11 @@ while True:
                 print("NO RECORDS")
             else:
                 summary()
+            print("$$$$$$$$$$$$$$$$$$$$$$$$$$")
             print("TOTAL FINE AMOUNT: {}".format(sum(finelist)))
             time.sleep(1)
             print("AMOUNT OF FINES: {}".format(len(finelist)))
+            print("$$$$$$$$$$$$$$$$$$$$$$$$$$")
     elif task == "3":
         exit()
     else:
