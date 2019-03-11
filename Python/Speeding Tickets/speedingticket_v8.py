@@ -10,6 +10,8 @@ import re
 fine = 0
 wanted_first = ["JAMES", "HELGA", "ZACHARY"]
 wanted_last = ["WILSON" , "NORMAN", "CONROY"]
+userlist = ["JASON", "HANRO", "ARYAN", "HASSAN158", "VIVEK"]
+passwordlist = ["PASSWORD"]
 
 #Lists
 finelist = []
@@ -70,6 +72,28 @@ def menu():
     return x
 
 #Main routine that runs in loop as soon as the script begins.
+while True:
+    try:
+        user = str(input("USERNAME: \n")).upper()
+        if not re.match("^[A-Z]{1,20}[0-9]{1,20}$", user):
+            print("ENGLISH ALPHABET ONLY| NO SPACES/WHITESPACES | MAX 20 CHARACTERS")
+        else:
+            password =  str(input("PASSWORD: \n")).upper()
+            if not re.match("^[A-Z]{1,20}[0-9]{1,20}$", password):
+                print("ENGLISH ALPHABET ONLY | NO SPACES/WHITESPACES | MAX 20 CHARACTERS")
+            elif user in userlist and password in passwordlist:
+                print("AUTHENTICATION SUCCESFULL")
+                break
+            elif user in adminlist and password in passwordlist:
+                print("ADMIN PRIVILGES GRANTED")
+            else:
+                print("AUTHENTICATION FAILED")
+    #Value Error means if the user enters something else than the stated input then it will print out the following statement.
+    except ValueError:
+        print("PLEASE ENTER A POSITIVE WHOLE NUMBER ONLY")
+    #AssertionError means if the if statement above is true it will print the following statement out and rerun this loop for the user to re-enter inputs.
+    except AssertionError:
+        print("PLEASE ENTER VALUES BETWEEN 0-300 KMS ONLY")
 print("______________________\n")
 print("SPEED FINE CALCULATOR")
 print("______________________\n")
