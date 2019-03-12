@@ -5,14 +5,15 @@
 #Modules
 import time
 import re
-
+import getpass
 #Variables
 fine = 0
+admin = ""
 wanted_first = ["JAMES", "HELGA", "ZACHARY"]
 wanted_last = ["WILSON" , "NORMAN", "CONROY"]
 userlist = ["JASON", "HANRO", "ARYAN", "HASSAN158", "VIVEK"]
 passwordlist = ["PASSWORD"]
-
+adminlist= ["ADMIN"]
 #Lists
 finelist = []
 firstlist = []
@@ -29,7 +30,32 @@ fines_for_each_overspeed = {"0":  0,
                             "44": 510,
                             "45": 630}
 #Functions
-
+def login():
+    while True:
+        try:
+            user = str(input("USERNAME: \n")).upper()
+            if not re.match("[a-zA-Z0-9_]", user):
+                print("ENGLISH ALPHABET ONLY| NO SPACES/WHITESPACES | MAX 20 CHARACTERS")
+            else:
+                password =  str(input("PASSWORD: \n")).upper()
+                if not re.match("[a-zA-Z0-9_]", password):
+                    print("ENGLISH ALPHABET ONLY | NO SPACES/WHITESPACES | MAX 20 CHARACTERS")
+                elif user in userlist and password in passwordlist:
+                    print("AUTHENTICATION SUCCESFULL")
+                    break
+                elif user in adminlist and password in passwordlist:
+                    print("ADMIN PRIVILGES GRANTED")
+                    global admin
+                    admin = "1"
+                    break
+                else:
+                    print("AUTHENTICATION FAILED")
+        #Value Error means if the user enters something else than the stated input then it will print out the following statement.
+        except ValueError:
+            print("PLEASE ENTER A POSITIVE WHOLE NUMBER ONLY")
+        #AssertionError means if the if statement above is true it will print the following statement out and rerun this loop for the user to re-enter inputs.
+        except AssertionError:
+            print("PLEASE ENTER VALUES BETWEEN 0-300 KMS ONLY")
 #Prints out a summary of all the fines of the day with their speed and fine.
 def summary():
     for i in range(0, len(speedlist)):
@@ -68,78 +94,90 @@ def wanted(First_Name, Last_Name):
         print("{} {} IS CLEAR\n".format(First_Name.strip(), Last_Name.strip()))
 
 def menu():
-    x = input("ENTER 1 | 2 | 3\n")
-    return x
-
+    if admin == "1":
+        x = input("ENTER 1 | 2 | 3 | 4\n")
+        return x
+    else:
+        x = input("ENTER 1 | 2 | 3\n")
+        return x
 #Main routine that runs in loop as soon as the script begins.
-while True:
-    try:
-        user = str(input("USERNAME: \n")).upper()
-        if not re.match("^[A-Z]{1,20}[0-9]{1,20}$", user):
-            print("ENGLISH ALPHABET ONLY| NO SPACES/WHITESPACES | MAX 20 CHARACTERS")
-        else:
-            password =  str(input("PASSWORD: \n")).upper()
-            if not re.match("^[A-Z]{1,20}[0-9]{1,20}$", password):
-                print("ENGLISH ALPHABET ONLY | NO SPACES/WHITESPACES | MAX 20 CHARACTERS")
-            elif user in userlist and password in passwordlist:
-                print("AUTHENTICATION SUCCESFULL")
-                break
-            elif user in adminlist and password in passwordlist:
-                print("ADMIN PRIVILGES GRANTED")
-            else:
-                print("AUTHENTICATION FAILED")
-    #Value Error means if the user enters something else than the stated input then it will print out the following statement.
-    except ValueError:
-        print("PLEASE ENTER A POSITIVE WHOLE NUMBER ONLY")
-    #AssertionError means if the if statement above is true it will print the following statement out and rerun this loop for the user to re-enter inputs.
-    except AssertionError:
-        print("PLEASE ENTER VALUES BETWEEN 0-300 KMS ONLY")
+login()
 print("______________________\n")
 print("SPEED FINE CALCULATOR")
 print("______________________\n")
 print("1 | CALCULATE FINES")
 print("2 | TOTAL FINES")
-print("3 | EXIT\n")
+print("3 | EXIT")
+if admin == "1":
+    print("4 | ADMIN MENU (ADMIN ONLY)")
+
 while True:
-    task = menu()
-    if task == "1":
-        #Asks for driver's name, speed limit of the road and the speed of the driver's car
-        while True:
-            try:
-                First_Name = str(input("DRIVER'S FIRST NAME: \n")).upper()
-                if not re.match("^[A-Z]{1,20}$", First_Name):
-                    print("ENGLISH ALPHABET ONLY| NO SPACES/WHITESPACES | MAX 20 CHARACTERS")
-                else:
-                    Last_Name =  str(input("DRIVER'S LAST NAME: \n")).upper()
-                    if not re.match("^[A-Z]{1,20}$", Last_Name):
-                        print("ENGLISH ALPHABET ONLY | NO SPACES/WHITESPACES | MAX 20 CHARACTERS")
+        task = menu()
+        if task == "1":
+            #Asks for driver's name, speed limit of the road and the speed of the driver's car
+            while True:
+                try:
+                    First_Name = str(input("DRIVER'S FIRST NAME: \n")).upper()
+                    if not re.match("^[A-Z]{1,20}$", First_Name):
+                        print("ENGLISH ALPHABET ONLY| NO SPACES/WHITESPACES | MAX 20 CHARACTERS")
                     else:
-                        SpeedLimit = int(input("ROAD SPEED LIMIT: \n"))
-                        assert 0 < SpeedLimit < 301
-                        CarSpeed = int(input("DRIVER'S SPEED: \n"))
-                        assert 0 < CarSpeed < 301
-                        addtolist(CarSpeed, SpeedLimit, fine)
-                        wanted(First_Name, Last_Name)
-                        break
-            #Value Error means if the user enters something else than the stated input then it will print out the following statement.
-            except ValueError:
-                print("PLEASE ENTER A POSITIVE WHOLE NUMBER ONLY")
-            #AssertionError means if the if statement above is true it will print the following statement out and rerun this loop for the user to re-enter inputs.
-            except AssertionError:
-                print("PLEASE ENTER VALUES BETWEEN 0-300 KMS ONLY")
+                        Last_Name =  str(input("DRIVER'S LAST NAME: \n")).upper()
+                        if not re.match("^[A-Z]{1,20}$", Last_Name):
+                            print("ENGLISH ALPHABET ONLY | NO SPACES/WHITESPACES | MAX 20 CHARACTERS")
+                        else:
+                            SpeedLimit = int(input("ROAD SPEED LIMIT: \n"))
+                            assert 0 < SpeedLimit < 301
+                            CarSpeed = int(input("DRIVER'S SPEED: \n"))
+                            assert 0 < CarSpeed < 301
+                            addtolist(CarSpeed, SpeedLimit, fine)
+                            wanted(First_Name, Last_Name)
+                            break
+                #Value Error means if the user enters something else than the stated input then it will print out the following statement.
+                except ValueError:
+                    print("PLEASE ENTER A POSITIVE WHOLE NUMBER ONLY")
+                #AssertionError means if the if statement above is true it will print the following statement out and rerun this loop for the user to re-enter inputs.
+                except AssertionError:
+                    print("PLEASE ENTER VALUES BETWEEN 0-300 KMS ONLY")
 
 #Both of these function run in the while True: loop as they will keep adding to the fine list and checking for wanted drivers.
-    elif task == "2":
-            if sum(finelist) == 0:
-                print("NO RECORDS")
-            else:
-                summary()
-            print("$$$$$$$$$$$$$$$$$$$$$$$$$$")
-            print("TOTAL FINE AMOUNT: {}".format(sum(finelist)))
-            time.sleep(1)
-            print("AMOUNT OF FINES: {}".format(len(finelist)))
-            print("$$$$$$$$$$$$$$$$$$$$$$$$$$")
-    elif task == "3":
-        exit()
-    else:
-        print("INPUT VALUE NOT ALLOWED |ENTER WHILE NUMBER ONLY")
+        elif task == "2":
+                if sum(finelist) == 0:
+                    print("NO RECORDS")
+                else:
+                    summary()
+                print("$$$$$$$$$$$$$$$$$$$$$$$$$$")
+                print("TOTAL FINE AMOUNT: {}".format(sum(finelist)))
+                time.sleep(1)
+                print("AMOUNT OF FINES: {}".format(len(finelist)))
+                print("$$$$$$$$$$$$$$$$$$$$$$$$$$")
+        elif task == "4" and admin == "1":
+            print("ADD OR REMOVE USERS:")
+            print("1 | ADD USER")
+            print("2 | REMOVE USER")
+            y = input("ENTER 1 | 2\n")
+            if y == "1":
+                userlogin = input("CREATE USERNAME LOGIN:\n").upper()
+                print("CREATE PASSWORD:\n")
+                userpassword = getpass.getpass()
+                admin = ""
+                userlist.append(userlogin)
+                passwordlist.append(userpassword)
+            elif y == "2":
+
+                for i in range(0, len(userlist)):
+                    print(userlist[i])
+                try:
+                    removeuser = input("USER'S NAME:\n").upper()
+                    userlist.remove(removeuser)
+                except ValueError:
+                    print("PLEASE ENTER A POSITIVE WHOLE NUMBER ONLY")
+        elif task == "3":
+            login()
+            print("______________________\n")
+            print("SPEED FINE CALCULATOR")
+            print("______________________\n")
+            print("1 | CALCULATE FINES")
+            print("2 | TOTAL FINES")
+            print("3 | EXIT")
+        else:
+            print("INPUT VALUE NOT ALLOWED |ENTER WHOLE NUMBER ONLY")
