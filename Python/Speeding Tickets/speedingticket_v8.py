@@ -5,7 +5,6 @@
 #Modules
 import time
 import re
-import getpass
 #Variables
 fine = 0
 admin = ""
@@ -157,8 +156,7 @@ while True:
             y = input("ENTER 1 | 2\n")
             if y == "1":
                 userlogin = input("CREATE USERNAME LOGIN:\n").upper()
-                print("CREATE PASSWORD:\n")
-                userpassword = getpass.getpass()
+                userpassword = input("CREATE PASSWORD:\n").upper()
                 admin = ""
                 userlist.append(userlogin)
                 passwordlist.append(userpassword)
